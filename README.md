@@ -1,95 +1,87 @@
-# 📊 Projeto de Análise de Churn em Telecom
+# 📊 Prevendo Churn – Telecom X (Parte 2)
 
-Este projeto tem como objetivo analisar e construir um modelo preditivo para identificar clientes com maior probabilidade de **cancelar serviços (churn)** em uma empresa de telecomunicações. Todo o processo foi desenvolvido em um Jupyter Notebook, seguindo uma abordagem passo a passo — da exploração de dados à preparação para Machine Learning.
-
----
-
-## 📌 1. Visão Geral do Projeto
-
-O foco principal é a variável **Churn** (renomeada para `Cancelou`), que indica se um cliente desistiu dos serviços da empresa. O projeto realiza as seguintes etapas:
-
-- Limpeza e inspeção inicial dos dados.
-- Tradução e padronização de variáveis.
-- Transformações e normalizações necessárias.
-- Preparação dos dados para modelagem preditiva.
+Este projeto foi desenvolvido como parte do desafio **Telecom X – Parte 2: Prevendo Churn**, cujo objetivo é criar modelos de *Machine Learning* capazes de prever quais clientes têm maior probabilidade de cancelar seus serviços (*churn*).
 
 ---
 
-## 🛠️ 2. Tecnologias e Bibliotecas Utilizadas
+## 🎯 Objetivo
 
-O projeto foi desenvolvido em **Python**, utilizando bibliotecas do ecossistema de Ciência de Dados:
-
-- **pandas**: Manipulação e análise de dados.
-- **numpy**: Operações matemáticas e vetoriais.
-- **matplotlib.pyplot** & **seaborn**: Visualização de dados.
-- **scipy** & **statsmodels**: Testes estatísticos e análise inferencial.
-- **scikit-learn (sklearn)**:
-  - `preprocessing`: Normalização (MinMaxScaler, StandardScaler), codificação (OneHotEncoder).
-  - `linear_model`: Regressão logística.
-  - `model_selection`: Separação em treino/teste (train_test_split).
-  - `compose`: Uso de ColumnTransformer para aplicar diferentes transformações nas colunas.
+Construir um pipeline preditivo robusto para:
+- Realizar pré-processamento de dados (limpeza, normalização, codificação de variáveis).
+- Analisar correlações e selecionar variáveis relevantes.
+- Balancear classes para lidar com desbalanceamento no churn.
+- Treinar e avaliar diferentes modelos de classificação.
+- Extrair insights estratégicos para retenção de clientes.
 
 ---
 
-## 🧾 3. Estrutura dos Dados
-
-- Arquivo utilizado: `dados_normalizados.csv`
-- Total de registros: **7.267**
-- Total de colunas: **24**
-- Tipos de dados: booleanos, inteiros, floats e objetos.
-
-### Principais colunas (com nomes traduzidos):
-| Nome Original     | Nome Traduzido     |
-|-------------------|--------------------|
-| `customerID`      | `ID_Cliente`       |
-| `Churn`           | `Cancelou`         |
-| `gender`          | `Genero`           |
-| `SeniorCitizen`   | `Idoso`            |
-| `tenure`          | `Meses_de_Contrato`|
-| `MonthlyCharges`  | `Valor_Mensal`     |
-
----
-
-## 🧪 4. Metodologia
-
-O notebook segue a seguinte estrutura:
-
-### 1. Carregamento e Inspeção dos Dados
-- Leitura do arquivo `.csv` com `pandas`
-- Análise da estrutura do DataFrame com `df.info()`
-
-### 2. Pré-processamento
-- **Tradução de Colunas**: Renomeadas para o português para facilitar a leitura.
-- **Conversão de Variáveis Categóricas**: Ex: `Genero` transformado em valor booleano.
-- **Normalização/Padronização**:
-  - MinMaxScaler e StandardScaler aplicados nas colunas numéricas:
-    - `Meses_de_Contrato`
-    - `Valor_Mensal`
-    - `Qtd_Servicos`
-    - `Total_Servicos`
-  - StandardScaler foi a última transformação utilizada.
-
-### 3. Preparação para o Modelo
-- **Separação de variáveis**:
-  - `Cancelou` como variável alvo (**Y**)
-  - Remoção de `ID_Cliente` e `Cancelou` das features (**X**)
-- **Codificação One-Hot**:
-  - Aplicada às colunas categóricas como `Tipo_Internet`, `Tipo_Contrato`, `Metodo_Pagamento`, etc.
-  - Utilizado `OneHotEncoder` em conjunto com `ColumnTransformer`.
-
----
-
-## 📂 Organização do Projeto
+## 📂 Estrutura da Pasta
 
 ```
-├── dados_normalizados.csv
-├── analise_churn_telecom.ipynb
-└── README.md
+📁 projeto-churn-telecomx
+│-- 📄 Relatorio_TelecomX_2.docx      # Relatório final com resultados e conclusões
+│-- 📄 README.md                      # Este arquivo
+│-- 📄 dados_normalizados_TELECOMX_PT.csv  # Base de dados tratada
+│-- 📄 Challenge_X2.ipynb             # Notebook com código, análises e modelos
 ```
 
 ---
 
-## ✅ Status do Projeto
+## 🛠 Tecnologias e Bibliotecas Utilizadas
 
-✔️ Análise e pré-processamento concluídos  
-🧠 Pronto para a construção e avaliação de modelos de Machine Learning
+- **Python** 3.x
+- **Pandas** e **NumPy** – Manipulação e análise de dados
+- **Matplotlib** e **Seaborn** – Visualização de dados
+- **SciPy** – Estatísticas
+- **Scikit-learn** – Modelos de machine learning e pré-processamento
+- **Imbalanced-learn (SMOTE)** – Balanceamento de classes
+- **Statsmodels** – Modelos estatísticos e análise de variáveis
+
+---
+
+## 📊 Etapas do Projeto
+
+1. **Carregamento da Base de Dados**
+   - Utilização de `dados_normalizados_TELECOMX_PT.csv` (resultado do Challenge 1 com dados tratados).
+
+2. **Pré-processamento**
+   - Conversão de variáveis categóricas (`genero`) para valores numéricos.
+   - Padronização de variáveis numéricas pelo método **Z-score**.
+   - Codificação *One-Hot Encoding* para variáveis categóricas (`tipo_internet`, `tipo_contrato`, `forma_pagamento`).
+   - Remoção de variáveis redundantes.
+
+3. **Análise de Correlação**
+   - Correlação de Spearman com a variável alvo `cancelou`.
+   - Identificação de fatores de retenção e de risco para churn.
+
+4. **Divisão de Dados**
+   - Separação treino/teste (70%/30%) com estratificação para manter proporção das classes.
+
+5. **Balanceamento**
+   - Aplicação de **SMOTE** somente no conjunto de treino.
+
+6. **Treinamento e Avaliação de Modelos**
+   - **Árvore de Decisão** (ajustes de `max_depth` para reduzir overfitting).
+   - **K-Nearest Neighbors (KNN)**.
+   - **Regressão Logística** (interpretação de coeficientes).
+   - Comparação das métricas: *accuracy*, *precision*, *recall*, *f1-score*.
+
+7. **Interpretação e Insights**
+   - Fatores que mais influenciam o cancelamento e a retenção.
+   - Recomendações estratégicas para retenção de clientes.
+
+---
+
+## 📈 Principais Resultados
+
+- **Árvore de Decisão (max_depth=3)**: Recall de 86% para classe "cancelou" – indicado quando a prioridade é identificar o máximo possível de cancelamentos.
+- **KNN**: Recall de 72% para cancelamentos – desempenho intermediário.
+- **Regressão Logística**: Melhor equilíbrio entre precisão e recall, além de alta interpretabilidade.
+
+---
+
+---
+
+## 📌 Autor
+**Mateu Xauan** – Analista de Machine Learning Júnior  
+Projeto desenvolvido para o desafio **Telecom X – Parte 2**.
